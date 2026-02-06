@@ -12,6 +12,7 @@ import 'screens/recommend_screen.dart';
 import 'screens/chat_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/wallet_screen.dart';
+import 'screens/history_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,12 +87,12 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const WalletScreen(), // Wallet
-    const RecommendScreen(), // History (placeholder)
-    const ChatScreen(), // Planner (placeholder)
-    const HomeScreen(), // Redeem (placeholder)
+  final List<Widget> _screens = const [
+    HomeScreen(),
+    WalletScreen(),
+    HistoryScreen(),
+    RecommendScreen(),
+    ChatScreen(),
   ];
 
   @override
