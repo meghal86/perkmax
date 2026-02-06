@@ -1,84 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import '../app/theme.dart';
-import '../providers/card_provider.dart';
-import '../models/credit_card.dart';
 import 'recommendation_detail_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: AppTheme.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 120),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(context),
-              const SizedBox(height: 24),
-              _buildSearchField(context),
-              const SizedBox(height: 24),
-              _buildRecommendationSection(context),
-              const SizedBox(height: 24),
-              _buildStatsRow(context),
+              _buildHeader(),
               const SizedBox(height: 32),
-              _buildRecentWins(context),
-              const SizedBox(height: 80),
+              _buildHeroSearch(),
+              const SizedBox(height: 40),
+              _buildRecommendationSection(),
+              const SizedBox(height: 40),
+              _buildQuickStats(),
+              const SizedBox(height: 40),
+              _buildRecentWins(),
             ],
           ),
         ),
       ),
-      floatingActionButton: Container(
-        height: 56,
-        width: 56,
-        decoration: BoxDecoration(
-          color: const Color(0xFFD4AF37),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFFD4AF37).withValues(alpha: 0.4),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-          border: Border.all(color: Colors.white, width: 2),
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            customBorder: const CircleBorder(),
-            onTap: () {
-              _showChatModal(context);
-            },
-            child: const Icon(Icons.chat_bubble, color: Colors.white, size: 24),
-          ),
-        ),
-      ),
     );
   }
 
-  void _showChatModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.8,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        ),
-        child: const Center(child: Text("Chat Bot Placeholder")),
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -88,10 +55,9 @@ class HomeScreen extends StatelessWidget {
             Text(
               'PerkMax',
               style: GoogleFonts.playfairDisplay(
-                fontSize: 32,
-                fontWeight: FontWeight.w900,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
                 color: AppTheme.primaryGreen,
-                letterSpacing: -0.5,
               ),
             ),
             const SizedBox(height: 4),
@@ -99,81 +65,93 @@ class HomeScreen extends StatelessWidget {
               'Your financial co-pilot',
               style: GoogleFonts.inter(
                 fontSize: 14,
-                color: AppTheme.textDark.withValues(alpha: 0.6),
-                fontWeight: FontWeight.w500,
+                color: const Color(0xFF64748B),
               ),
             ),
           ],
         ),
         Container(
-          padding: const EdgeInsets.all(12),
+          width: 40,
+          height: 40,
           decoration: BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
+            border: Border.all(color: const Color(0xFFF3F4F6)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
               ),
             ],
           ),
           child: const Icon(
-            Icons.verified_user_outlined,
+            Icons.security,
             color: AppTheme.primaryGreen,
-            size: 24,
+            size: 20,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildSearchField(BuildContext context) {
+  Widget _buildHeroSearch() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        // REMOVED BORDER HERE
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: Row(
+      child: Stack(
         children: [
-          const Icon(Icons.search, color: Colors.grey, size: 20),
-          const SizedBox(width: 12),
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Where are you shopping?',
-                hintStyle: GoogleFonts.inter(
-                  color: Colors.grey.withValues(alpha: 0.7),
-                  fontSize: 14,
-                ),
-                border: InputBorder.none,
-                isDense: true,
-                contentPadding: EdgeInsets.zero,
+          TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Where are you shopping?',
+              hintStyle: GoogleFonts.inter(
+                fontSize: 16,
+                color: const Color(0xFF94A3B8),
+              ),
+              prefixIcon: const Icon(
+                Icons.search,
+                color: Color(0xFF94A3B8),
+                size: 20,
+              ),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 16,
               ),
             ),
+            style: GoogleFonts.inter(fontSize: 16),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF5F5F5),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              'AUTO-DETECT',
-              style: GoogleFonts.inter(
-                fontSize: 10,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[600],
-                letterSpacing: 0.5,
+          Positioned(
+            right: 12,
+            top: 0,
+            bottom: 0,
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF9FAFB),
+                  border: Border.all(color: const Color(0xFFF3F4F6)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'AUTO-DETECT',
+                  style: GoogleFonts.inter(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF9CA3AF),
+                    letterSpacing: 0.5,
+                  ),
+                ),
               ),
             ),
           ),
@@ -182,457 +160,511 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRecommendationSection(BuildContext context) {
+  Widget _buildRecommendationSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Recommendation',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: AppTheme.primaryGreen,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Recommendation',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 20,
+                  color: AppTheme.primaryGreen,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: const Color(0xFFE8F5E9),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFFC8E6C9)),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.circle, size: 8, color: Color(0xFF2E7D32)),
-                  const SizedBox(width: 6),
-                  Text(
-                    'HIGH CONFIDENCE',
-                    style: GoogleFonts.inter(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF2E7D32),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryGreen.withValues(alpha: 0.05),
+                  border: Border.all(
+                    color: AppTheme.primaryGreen.withValues(alpha: 0.1),
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 6,
+                      height: 6,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF10B981),
+                        shape: BoxShape.circle,
+                      ),
                     ),
+                    const SizedBox(width: 6),
+                    Text(
+                      'HIGH CONFIDENCE',
+                      style: GoogleFonts.inter(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.primaryGreen,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        _buildRecommendationCard(),
+      ],
+    );
+  }
+
+  Widget _buildRecommendationCard() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const RecommendationDetailScreen(),
+          ),
+        );
+      },
+      child: Stack(
+        children: [
+          // Shadow layer
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 16,
+            bottom: -16,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppTheme.primaryGreen.withValues(alpha: 0.2),
+                    blurRadius: 80,
+                    spreadRadius: -10,
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: const Color(0xFF263238),
-            borderRadius: BorderRadius.circular(32),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF263238).withValues(alpha: 0.4),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
-            ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(32),
-            child: Stack(
+          // Main card
+          Container(
+            padding: const EdgeInsets.all(32),
+            decoration: BoxDecoration(
+              color: const Color(0xFF2C3E50),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(40),
+                topRight: Radius.circular(40),
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(120),
+              ),
+              gradient: RadialGradient(
+                center: const Alignment(-1, -1),
+                radius: 1.5,
+                colors: [
+                  AppTheme.accentGold.withValues(alpha: 0.1),
+                  const Color(0xFF2C3E50),
+                ],
+                stops: const [0.0, 0.5],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.2),
+                  blurRadius: 30,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Positioned(
-                  right: -80,
-                  bottom: -80,
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.1),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: -60,
-                  bottom: -60,
-                  child: Container(
-                    width: 160,
-                    height: 160,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.05),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-                Padding(
-                  // REDUCED PADDING 28 -> 22 to reduce height
-                  padding: const EdgeInsets.all(22),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Use this card at Best Buy',
-                        style: GoogleFonts.inter(
-                          color: const Color(0xFFD4AF37),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Chase Freedom\nUnlimited',
-                        style: GoogleFonts.playfairDisplay(
-                          color: Colors.white,
-                          fontSize: 26,
-                          fontWeight: FontWeight.w500,
-                          height: 1.1,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              '3.5x',
-                              style: GoogleFonts.inter(
-                                color: const Color(0xFFD4AF37),
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'POINTS',
-                              style: GoogleFonts.inter(
-                                color: const Color(
-                                  0xFFD4AF37,
-                                ).withValues(alpha: 0.8),
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16), // Reduced space 24 -> 16
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Text(
-                                  'VISA',
-                                  style: GoogleFonts.inter(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 12,
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                '•••• 4242',
-                                style: GoogleFonts.inter(
-                                  color: Colors.white.withValues(alpha: 0.8),
-                                  fontSize: 14,
-                                  letterSpacing: 2,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            'Use this card at Best Buy',
+                            style: GoogleFonts.inter(
+                              fontSize: 14,
+                              color: AppTheme.accentGold,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const RecommendationDetailScreen(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ), // Adjusted padding
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.15),
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Colors.white.withValues(alpha: 0.2),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.bolt,
-                                    color: Color(0xFFD4AF37),
-                                    size: 16,
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    'OPTIMIZED',
-                                    style: GoogleFonts.inter(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Chase Freedom Unlimited',
+                            style: GoogleFonts.playfairDisplay(
+                              fontSize: 24,
+                              color: Colors.white,
+                              height: 1.1,
                             ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '3.5x',
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            color: AppTheme.accentGold,
+                            height: 1,
+                            letterSpacing: -1,
+                          ),
+                        ),
+                        Text(
+                          'POINTS',
+                          style: GoogleFonts.inter(
+                            fontSize: 10,
+                            color: Colors.white.withValues(alpha: 0.5),
+                            letterSpacing: 2,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 48),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'CARD ENDING IN',
+                            style: GoogleFonts.inter(
+                              fontSize: 10,
+                              color: Colors.white.withValues(alpha: 0.4),
+                              letterSpacing: 2,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  'VISA',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 8,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                '•••• 4242',
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.1),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.1),
+                        ),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 28,
+                            height: 28,
+                            decoration: BoxDecoration(
+                              color: AppTheme.accentGold,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppTheme.accentGold.withValues(
+                                    alpha: 0.4,
+                                  ),
+                                  blurRadius: 8,
+                                  spreadRadius: 0,
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.bolt,
+                              color: Color(0xFF2C3E50),
+                              size: 14,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'OPTIMIZED',
+                            style: GoogleFonts.inter(
+                              fontSize: 11,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStatsRow(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildStatsCard(
-            title: 'TOTAL SAVED',
-            value: '\$428.12',
-            valueColor: AppTheme.primaryGreen,
-            decorationColor: AppTheme.primaryGreen.withValues(alpha: 0.1),
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: _buildStatsCard(
-            title: 'ACTIVE GOALS',
-            value: '2',
-            valueColor: AppTheme.textDark,
-            decorationColor: AppTheme.textDark.withValues(alpha: 0.05),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStatsCard({
-    required String title,
-    required String value,
-    required Color valueColor,
-    required Color decorationColor,
-  }) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: Container(
-        height: 100,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.03),
-              blurRadius: 15,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              right: -30,
-              top: -30,
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: decorationColor,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 10,
-              top: 10,
-              child: Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: decorationColor.withValues(alpha: 0.5),
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    title,
-                    style: GoogleFonts.inter(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[500],
-                      letterSpacing: 1,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    value,
-                    style: GoogleFonts.playfairDisplay(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: valueColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
 
-  Widget _buildRecentWins(BuildContext context) {
-    final wins = [
-      {
-        'store': 'Starbucks',
-        'subtitle': 'Today',
-        'amount': '+\$1.40',
-        'color': 0xFF795548,
-      },
-      {
-        'store': 'Amazon',
-        'subtitle': 'Yesterday',
-        'amount': '+\$12.20',
-        'color': 0xFFE65100,
-      },
-    ];
+  Widget _buildQuickStats() {
+    return Row(
+      children: [
+        Expanded(
+          child: _buildStatCard(
+            label: 'Total Saved',
+            value: '\$428.12',
+            accentColor: AppTheme.accentGold,
+          ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: _buildStatCard(
+            label: 'Active Goals',
+            value: '2',
+            accentColor: AppTheme.primaryGreen,
+          ),
+        ),
+      ],
+    );
+  }
 
+  Widget _buildStatCard({
+    required String label,
+    required String value,
+    required Color accentColor,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: const Color(0xFFF3F4F6)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: accentColor.withValues(alpha: 0.05),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(40),
+                ),
+              ),
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label.toUpperCase(),
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  color: const Color(0xFF94A3B8),
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                value,
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 28,
+                  color: AppTheme.primaryGreen,
+                  fontWeight: FontWeight.bold,
+                  height: 1,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRecentWins() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Recent Wins',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.primaryGreen,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Recent Wins',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 18,
+                  color: AppTheme.primaryGreen,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
+              Row(
+                children: [
+                  Text(
+                    'HISTORY',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.accentGold,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  const Icon(
+                    Icons.chevron_right,
+                    size: 16,
+                    color: AppTheme.accentGold,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        _buildWinItem(
+          icon: '☕',
+          name: 'Starbucks',
+          date: 'Today',
+          saved: '\$1.40',
+        ),
+        const SizedBox(height: 12),
+        _buildWinItem(
+          icon: '📦',
+          name: 'Amazon',
+          date: 'Yesterday',
+          saved: '\$12.20',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWinItem({
+    required String icon,
+    required String name,
+    required String date,
+    required String saved,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFF3F4F6)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF9FAFB),
+              borderRadius: BorderRadius.circular(12),
             ),
-            Row(
+            child: Center(
+              child: Text(icon, style: const TextStyle(fontSize: 20)),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'HISTORY',
-                  style: GoogleFonts.inter(
-                    fontSize: 12,
-                    color: const Color(0xFFD4AF37),
+                  name,
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 1,
+                    color: const Color(0xFF1F2937),
                   ),
                 ),
-                const SizedBox(width: 4),
-                const Icon(
-                  Icons.chevron_right,
-                  color: Color(0xFFD4AF37),
-                  size: 16,
+                Text(
+                  date,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    color: const Color(0xFF94A3B8),
+                  ),
                 ),
               ],
             ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        ...wins
-            .map(
-              (win) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.02),
-                        blurRadius: 10,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF5F5F5),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          win['store'] == 'Starbucks'
-                              ? Icons.coffee
-                              : Icons.local_shipping,
-                          color: Color(win['color'] as int),
-                          size: 20,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              win['store'] as String,
-                              style: GoogleFonts.inter(
-                                fontWeight: FontWeight.bold,
-                                color: AppTheme.textDark,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              win['subtitle'] as String,
-                              style: GoogleFonts.inter(
-                                fontSize: 12,
-                                color: Colors.grey[500],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        win['amount'] as String,
-                        style: GoogleFonts.inter(
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF2E7D32),
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-            .toList(),
-      ],
+          ),
+          Text(
+            '+$saved',
+            style: GoogleFonts.inter(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF10B981),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

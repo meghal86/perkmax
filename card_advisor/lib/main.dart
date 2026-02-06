@@ -11,6 +11,7 @@ import 'screens/cards_screen.dart';
 import 'screens/recommend_screen.dart';
 import 'screens/chat_screen.dart';
 import 'screens/splash_screen.dart';
+import 'screens/wallet_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,9 +88,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const CardsScreen(),
-    const RecommendScreen(),
-    const ChatScreen(),
+    const WalletScreen(), // Wallet
+    const RecommendScreen(), // History (placeholder)
+    const ChatScreen(), // Planner (placeholder)
+    const HomeScreen(), // Redeem (placeholder)
   ];
 
   @override
@@ -99,9 +101,16 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
+          border: Border(
+            top: BorderSide(color: const Color(0xFFF3F4F6), width: 1),
+          ),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 20,
               offset: const Offset(0, -5),
             ),
@@ -109,9 +118,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildNavItem(
                   index: 0,
@@ -121,21 +130,27 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 ),
                 _buildNavItem(
                   index: 1,
-                  icon: Icons.credit_card_outlined,
-                  activeIcon: Icons.credit_card,
-                  label: 'Cards',
+                  icon: Icons.account_balance_wallet_outlined,
+                  activeIcon: Icons.account_balance_wallet,
+                  label: 'Wallet',
                 ),
                 _buildNavItem(
                   index: 2,
-                  icon: Icons.recommend_outlined,
-                  activeIcon: Icons.recommend,
-                  label: 'Suggest',
+                  icon: Icons.history,
+                  activeIcon: Icons.history,
+                  label: 'History',
                 ),
                 _buildNavItem(
                   index: 3,
-                  icon: Icons.chat_bubble_outline,
-                  activeIcon: Icons.chat_bubble,
-                  label: 'AI Chat',
+                  icon: Icons.flag_outlined,
+                  activeIcon: Icons.flag,
+                  label: 'Planner',
+                ),
+                _buildNavItem(
+                  index: 4,
+                  icon: Icons.card_giftcard_outlined,
+                  activeIcon: Icons.card_giftcard,
+                  label: 'Redeem',
                 ),
               ],
             ),
@@ -155,35 +170,36 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return GestureDetector(
       onTap: () => setState(() => _currentIndex = index),
       behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isActive
-              ? AppTheme.primaryGreen.withValues(alpha: 0.1)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              isActive ? activeIcon : icon,
-              color: isActive ? AppTheme.primaryGreen : Colors.grey,
-              size: 24,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: isActive
+                  ? AppTheme.primaryGreen.withValues(alpha: 0.1)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(12),
             ),
-            if (isActive) ...[
-              const SizedBox(width: 8),
-              Text(
-                label,
-                style: GoogleFonts.inter(
-                  color: AppTheme.primaryGreen,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
+            child: Icon(
+              isActive ? activeIcon : icon,
+              color: isActive ? AppTheme.primaryGreen : const Color(0xFF9CA3AF),
+              size: 22,
+            ),
+          ),
+          const SizedBox(height: 4),
+          if (isActive)
+            Container(
+              width: 4,
+              height: 4,
+              decoration: const BoxDecoration(
+                color: AppTheme.primaryGreen,
+                shape: BoxShape.circle,
               ),
-            ],
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

@@ -7,14 +7,19 @@ class AppTheme {
   static const Color accentGold = Color(0xFFD4AF37);
 
   // Backgrounds
+  static const Color backgroundColor = Color(0xFFF5F5F5); // Figma background
   static const Color lightBackground = Color(0xFFF5F5F5);
   static const Color darkBackground = Color(
     0xFF030213,
   ); // From --sidebar-primary
   static const Color white = Colors.white;
   static const Color textDark = Color(0xFF2C3E50); // From --foreground
+  static const Color cardBackground = Color(0xFF2C3E50); // Dark slate for cards
 
   static const Color success = Color(0xFF00C853);
+  static const Color successGreen = Color(
+    0xFF2E7D32,
+  ); // Success/checkmark green
   static const Color error = Color(0xFFD4183D); // From --destructive
 
   // Gradients
@@ -177,10 +182,8 @@ class AppTheme {
 
   // Legacy aliases to prevent breakages during refactor
   // Ideally should be replaced in screens
-  static const Color cardBackground = Colors.white;
   static const Color accentBlue = Color(0xFF1565C0);
   static const Color accentPurple = Color(0xFF6A1B9A);
-  static const Color successGreen = Color(0xFF2E7D32);
   static const Color errorRed = Color(0xFFC62828);
   static const Color primaryGold = accentGold;
   static const Color surfaceColor = Color(0xFFF5F5F5);
@@ -189,7 +192,7 @@ class AppTheme {
     return const LinearGradient(
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
-      colors: [lightBackground, Color(0xFFECEFF1)],
+      colors: [backgroundColor, Color(0xFFECEFF1)],
     );
   }
 }
