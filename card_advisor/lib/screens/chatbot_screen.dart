@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../app/theme.dart';
+import '../services/gemini_service.dart';
 
 class ChatbotScreen extends StatefulWidget {
   const ChatbotScreen({super.key});
@@ -13,6 +14,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
   final List<Map<String, dynamic>> _messages = [];
   final TextEditingController _inputController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  final GeminiService _geminiService = GeminiService();
   bool _isTyping = false;
 
   @override
@@ -21,7 +23,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     // Add initial bot message
     _messages.add({
       'text':
-          "Hello! I'm your PerkMax Advisor. Ask me anything about your cards, rewards, or spending strategy.",
+          "Hello! I'm your PerkMax Advisor powered by Gemini AI. Ask me anything about credit cards, rewards, or spending strategies!",
       'isUser': false,
       'timestamp': DateTime.now(),
     });
@@ -34,7 +36,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     super.dispose();
   }
 
-  void _sendMessage() {
+  void _sendMessage() async {
     if (_inputController.text.trim().isEmpty) return;
 
     final userMessage = {
@@ -48,39 +50,36 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       _isTyping = true;
     });
 
+    final userText = _inputController.text;
     _inputController.clear();
     _scrollToBottom();
 
-    // Simulate AI response
-    Future.delayed(const Duration(milliseconds: 1500), () {
-      final response = _getAIResponse(userMessage['text'] as String);
-      setState(() {
-        _messages.add({
-          'text': response,
-          'isUser': false,
-          'timestamp': DateTime.now(),
-        });
-        _isTyping = false;
-      });
-      _scrollToBottom();
-    });
-  }
+    // Get context from last few messages
+    final context = _messages
+        .take(_messages.length > 6 ? 6 : _messages.length)
+        .map(
+          (msg) => {
+            'role': msg['isUser'] ? 'User' : 'Assistant',
+            'text': msg['text'] as String,
+          },
+        )
+        .toList();
 
-  String _getAIResponse(String query) {
-    final q = query.toLowerCase();
-    if (q.contains('chase')) {
-      return "Your Chase Freedom Unlimited is currently earning 5% on travel and 3% on dining. Since you're at Starbucks, I recommend this card!";
-    }
-    if (q.contains('amex')) {
-      return "The Amex Gold is best for groceries (4x). You've used 65% of your annual dining credit so far this year.";
-    }
-    if (q.contains('fee')) {
-      return "You're paying \$790 in total annual fees across 5 cards. However, your rewards value last year was \$2,420, giving you a net profit of \$1,630.";
-    }
-    if (q.contains('best') || q.contains('recommend')) {
-      return "For general spending, your Apple Card is best for 2% back via Apple Pay. For travel, use the Amex Platinum for 5x points.";
-    }
-    return "That's a great question. Based on your spending patterns, you could increase your rewards by 12% by switching your primary grocery card to the Amex Gold.";
+    // Get real Gemini AI response
+    final response = await _geminiService.sendMessage(
+      userText,
+      context: context,
+    );
+
+    setState(() {
+      _messages.add({
+        'text': response,
+        'isUser': false,
+        'timestamp': DateTime.now(),
+      });
+      _isTyping = false;
+    });
+    _scrollToBottom();
   }
 
   void _scrollToBottom() {

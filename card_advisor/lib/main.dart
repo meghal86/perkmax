@@ -93,7 +93,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   final List<Widget> _screens = const [
     HomeScreen(),
     WalletScreen(),
-    ChatbotScreen(), // Center tab
+    ChatbotScreen(), // Center AI tab
     HistoryScreen(),
     PlannerScreen(),
     RedeemScreen(),
@@ -139,7 +139,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   activeIcon: Icons.account_balance_wallet,
                   label: 'Wallet',
                 ),
-                // Center AI button
+                // Center AI button opens Chatbot
                 _buildCenterAIButton(),
                 _buildNavItem(
                   index: 3,
