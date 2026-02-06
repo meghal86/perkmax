@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../app/theme.dart';
 import '../providers/card_provider.dart';
@@ -10,9 +11,9 @@ class CardsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(gradient: AppTheme.backgroundGradient),
-      child: SafeArea(
+    return Scaffold(
+      backgroundColor: AppTheme.lightBackground,
+      body: SafeArea(
         child: Column(
           children: [
             _buildHeader(context),
@@ -20,12 +21,35 @@ class CardsScreen extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _navigateToAddCard(context),
+        backgroundColor: AppTheme.primaryGreen,
+        icon: const Icon(Icons.add, color: Colors.white),
+        label: Text(
+          'Add Card',
+          style: GoogleFonts.inter(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(32)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -34,49 +58,23 @@ class CardsScreen extends StatelessWidget {
             children: [
               Text(
                 'My Cards',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
+                  color: AppTheme.textDark,
                 ),
               ),
+              const SizedBox(height: 4),
               Consumer<CardProvider>(
                 builder: (context, provider, _) => Text(
                   '${provider.cards.length} cards registered',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: Colors.white60),
-                ),
-              ),
-            ],
-          ),
-          Container(
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [AppTheme.primaryGold, Color(0xFFFFD700)],
-              ),
-              borderRadius: BorderRadius.circular(14),
-              boxShadow: [
-                BoxShadow(
-                  color: AppTheme.primaryGold.withValues(alpha: 0.4),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(14),
-                onTap: () => _navigateToAddCard(context),
-                child: const Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Icon(
-                    Icons.add,
-                    color: AppTheme.darkBackground,
-                    size: 24,
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    color: AppTheme.textDark.withValues(alpha: 0.6),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),
@@ -88,7 +86,7 @@ class CardsScreen extends StatelessWidget {
       builder: (context, provider, _) {
         if (provider.isLoading) {
           return const Center(
-            child: CircularProgressIndicator(color: AppTheme.primaryGold),
+            child: CircularProgressIndicator(color: AppTheme.primaryGreen),
           );
         }
 
@@ -97,11 +95,11 @@ class CardsScreen extends StatelessWidget {
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.all(24),
           itemCount: provider.cards.length,
           itemBuilder: (context, index) {
             return Padding(
-              padding: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.only(bottom: 20),
               child: _buildCardItem(context, provider.cards[index], provider),
             );
           },
@@ -118,37 +116,42 @@ class CardsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
-                color: AppTheme.surfaceColor,
+                color: Colors.white,
                 shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 20,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
               ),
               child: Icon(
-                Icons.credit_card_off,
+                Icons.credit_card_off_outlined,
                 size: 64,
-                color: Colors.white.withValues(alpha: 0.3),
+                color: AppTheme.textDark.withValues(alpha: 0.2),
               ),
             ),
             const SizedBox(height: 24),
             Text(
               'No Cards Yet',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.textDark,
+              ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             Text(
               'Add your credit cards to start getting\nsmart recommendations',
               textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: Colors.white60),
-            ),
-            const SizedBox(height: 32),
-            ElevatedButton.icon(
-              onPressed: () => _navigateToAddCard(context),
-              icon: const Icon(Icons.add_card),
-              label: const Text('Add Your First Card'),
+              style: GoogleFonts.inter(
+                fontSize: 16,
+                color: AppTheme.textDark.withValues(alpha: 0.6),
+                height: 1.5,
+              ),
             ),
           ],
         ),
@@ -164,7 +167,7 @@ class CardsScreen extends StatelessWidget {
     final colorIndex = card.cardColor.isNotEmpty
         ? int.tryParse(card.cardColor) ?? 0
         : 0;
-    final gradientColor =
+    final cardColor =
         AppTheme.cardGradients[colorIndex % AppTheme.cardGradients.length];
 
     return Dismissible(
@@ -172,33 +175,45 @@ class CardsScreen extends StatelessWidget {
       direction: DismissDirection.endToStart,
       background: Container(
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20),
+        padding: const EdgeInsets.only(right: 24),
         decoration: BoxDecoration(
-          color: AppTheme.errorRed,
-          borderRadius: BorderRadius.circular(20),
+          color: AppTheme.error,
+          borderRadius: BorderRadius.circular(24),
         ),
-        child: const Icon(Icons.delete, color: Colors.white),
+        child: const Icon(Icons.delete_outline, color: Colors.white, size: 32),
       ),
       confirmDismiss: (direction) async {
         return await showDialog<bool>(
               context: context,
               builder: (context) => AlertDialog(
-                backgroundColor: AppTheme.cardBackground,
-                title: const Text('Delete Card?'),
+                backgroundColor: Colors.white,
+                title: Text(
+                  'Delete Card?',
+                  style: GoogleFonts.playfairDisplay(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 content: Text(
                   'Are you sure you want to remove ${card.cardNickname}?',
+                  style: GoogleFonts.inter(),
                 ),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context, false),
-                    child: const Text('Cancel'),
+                    child: Text(
+                      'Cancel',
+                      style: GoogleFonts.inter(color: AppTheme.textDark),
+                    ),
                   ),
                   TextButton(
                     onPressed: () => Navigator.pop(context, true),
-                    style: TextButton.styleFrom(
-                      foregroundColor: AppTheme.errorRed,
+                    child: Text(
+                      'Delete',
+                      style: GoogleFonts.inter(
+                        color: AppTheme.error,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    child: const Text('Delete'),
                   ),
                 ],
               ),
@@ -209,29 +224,33 @@ class CardsScreen extends StatelessWidget {
         provider.removeCard(card.id);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${card.cardNickname} removed'),
-            backgroundColor: AppTheme.cardBackground,
+            content: Text(
+              '${card.cardNickname} removed',
+              style: GoogleFonts.inter(),
+            ),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: const EdgeInsets.all(16),
+            backgroundColor: AppTheme.textDark,
           ),
         );
       },
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [gradientColor, gradientColor.withValues(alpha: 0.8)],
-          ),
-          borderRadius: BorderRadius.circular(20),
+          color: cardColor,
+          borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: gradientColor.withValues(alpha: 0.4),
+              color: cardColor.withValues(alpha: 0.4),
               blurRadius: 16,
               offset: const Offset(0, 8),
             ),
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -240,7 +259,7 @@ class CardsScreen extends StatelessWidget {
                 children: [
                   Text(
                     card.cardNickname,
-                    style: const TextStyle(
+                    style: GoogleFonts.inter(
                       color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -249,17 +268,18 @@ class CardsScreen extends StatelessWidget {
                   _buildCardTypeIcon(card.cardType),
                 ],
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 32),
               Text(
                 '•••• •••• •••• ${card.lastFourDigits}',
-                style: const TextStyle(
+                style: GoogleFonts.sourceCodePro(
+                  // Monospace for numbers look cool
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 22,
                   letterSpacing: 2,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -268,19 +288,20 @@ class CardsScreen extends StatelessWidget {
                     children: [
                       Text(
                         'CARD HOLDER',
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           color: Colors.white.withValues(alpha: 0.6),
                           fontSize: 10,
                           letterSpacing: 1,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         card.cardholderName.toUpperCase(),
-                        style: const TextStyle(
+                        style: GoogleFonts.inter(
                           color: Colors.white,
                           fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -290,27 +311,26 @@ class CardsScreen extends StatelessWidget {
                     children: [
                       Text(
                         'EXPIRES',
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           color: Colors.white.withValues(alpha: 0.6),
                           fontSize: 10,
                           letterSpacing: 1,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         card.expiryDate,
-                        style: const TextStyle(
+                        style: GoogleFonts.inter(
                           color: Colors.white,
                           fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-              _buildRewardChips(card),
             ],
           ),
         ),
@@ -327,46 +347,12 @@ class CardsScreen extends StatelessWidget {
       ),
       child: Text(
         type.name.toUpperCase(),
-        style: const TextStyle(
+        style: GoogleFonts.inter(
           color: Colors.white,
           fontSize: 12,
           fontWeight: FontWeight.bold,
         ),
       ),
-    );
-  }
-
-  Widget _buildRewardChips(CreditCard card) {
-    final topRewards =
-        card.rewardRates.entries.where((e) => e.value > 1).toList()
-          ..sort((a, b) => b.value.compareTo(a.value));
-
-    if (topRewards.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: topRewards.take(3).map((entry) {
-        final categoryName =
-            entry.key.name[0].toUpperCase() + entry.key.name.substring(1);
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Text(
-            '$categoryName ${entry.value.toStringAsFixed(0)}%',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        );
-      }).toList(),
     );
   }
 

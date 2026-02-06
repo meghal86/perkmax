@@ -210,9 +210,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
           const SizedBox(height: 8),
           Text(
             'Set cashback percentages for each category',
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: Colors.white60),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: AppTheme.textDark.withValues(alpha: 0.6),
+            ),
           ),
           const SizedBox(height: 16),
           ...model.RewardCategory.values.map((category) {
@@ -226,7 +226,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                     flex: 2,
                     child: Text(
                       categoryName,
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: AppTheme.textDark),
                     ),
                   ),
                   Expanded(flex: 3, child: _buildRewardSlider(category)),

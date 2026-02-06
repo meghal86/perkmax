@@ -1,15 +1,39 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:window_manager/window_manager.dart';
 import 'app/theme.dart';
 import 'providers/card_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/cards_screen.dart';
 import 'screens/recommend_screen.dart';
 import 'screens/chat_screen.dart';
+import 'screens/splash_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (!kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.macOS ||
+          defaultTargetPlatform == TargetPlatform.linux ||
+          defaultTargetPlatform == TargetPlatform.windows)) {
+    await windowManager.ensureInitialized();
+    WindowOptions windowOptions = const WindowOptions(
+      size: Size(393, 852), // iPhone 16 Pro dimensions
+      minimumSize: Size(393, 852),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      title: 'PerkMax',
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -19,18 +43,33 @@ void main() {
   runApp(const CardAdvisorApp());
 }
 
-class CardAdvisorApp extends StatelessWidget {
+class CardAdvisorApp extends StatefulWidget {
   const CardAdvisorApp({super.key});
+
+  @override
+  State<CardAdvisorApp> createState() => _CardAdvisorAppState();
+}
+
+class _CardAdvisorAppState extends State<CardAdvisorApp> {
+  bool _showSplash = true;
+
+  void _completeSplash() {
+    setState(() {
+      _showSplash = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => CardProvider())],
       child: MaterialApp(
-        title: 'Card Advisor',
+        title: 'PerkMax',
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.darkTheme,
-        home: const MainNavigationScreen(),
+        theme: AppTheme.lightTheme,
+        home: _showSplash
+            ? SplashScreen(onComplete: _completeSplash)
+            : const MainNavigationScreen(),
       ),
     );
   }
@@ -59,10 +98,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: AppTheme.cardBackground,
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.3),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 20,
               offset: const Offset(0, -5),
             ),
@@ -120,26 +159,24 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          gradient: isActive
-              ? const LinearGradient(
-                  colors: [AppTheme.primaryGold, Color(0xFFFFD700)],
-                )
-              : null,
+          color: isActive
+              ? AppTheme.primaryGreen.withValues(alpha: 0.1)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
           children: [
             Icon(
               isActive ? activeIcon : icon,
-              color: isActive ? AppTheme.darkBackground : Colors.white54,
+              color: isActive ? AppTheme.primaryGreen : Colors.grey,
               size: 24,
             ),
             if (isActive) ...[
               const SizedBox(width: 8),
               Text(
                 label,
-                style: const TextStyle(
-                  color: AppTheme.darkBackground,
+                style: GoogleFonts.inter(
+                  color: AppTheme.primaryGreen,
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                 ),

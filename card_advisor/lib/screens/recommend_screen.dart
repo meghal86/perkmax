@@ -60,9 +60,9 @@ class _RecommendScreenState extends State<RecommendScreen> {
           const SizedBox(height: 4),
           Text(
             'Select a category to find the best card',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Colors.white60),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: AppTheme.textDark.withValues(alpha: 0.6),
+            ),
           ),
         ],
       ),
@@ -162,14 +162,18 @@ class _RecommendScreenState extends State<RecommendScreen> {
           children: [
             Icon(
               icon,
-              color: isSelected ? Colors.white : Colors.white60,
+              color: isSelected
+                  ? Colors.white
+                  : AppTheme.textDark.withValues(alpha: 0.6),
               size: 24,
             ),
             const SizedBox(height: 4),
             Text(
               categoryName,
               style: TextStyle(
-                color: isSelected ? Colors.white : Colors.white60,
+                color: isSelected
+                    ? Colors.white
+                    : AppTheme.textDark.withValues(alpha: 0.6),
                 fontSize: 10,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
@@ -251,9 +255,9 @@ class _RecommendScreenState extends State<RecommendScreen> {
           Text(
             'Add your credit cards to get personalized recommendations',
             textAlign: TextAlign.center,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: Colors.white60),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: AppTheme.textDark.withValues(alpha: 0.6),
+            ),
           ),
         ],
       ),
@@ -321,7 +325,7 @@ class _RecommendScreenState extends State<RecommendScreen> {
                 Text(
                   rec.card.cardNickname,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: AppTheme.textDark,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -330,7 +334,7 @@ class _RecommendScreenState extends State<RecommendScreen> {
                 Text(
                   rec.reason,
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.7),
+                    color: AppTheme.textDark.withValues(alpha: 0.7),
                     fontSize: 12,
                   ),
                 ),

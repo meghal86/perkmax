@@ -96,9 +96,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 Text(
                   'Ask me about big purchases',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: Colors.white60),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppTheme.textDark.withValues(alpha: 0.6),
+                  ),
                 ),
               ],
             ),
@@ -165,9 +165,9 @@ class _ChatScreenState extends State<ChatScreen> {
             Text(
               'Ask me about any purchase you\'re planning.\nI\'ll recommend the best card to use!',
               textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: Colors.white60),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: AppTheme.textDark.withValues(alpha: 0.6),
+              ),
             ),
             const SizedBox(height: 32),
             Wrap(
@@ -195,7 +195,10 @@ class _ChatScreenState extends State<ChatScreen> {
         _sendMessage();
       },
       backgroundColor: AppTheme.surfaceColor,
-      labelStyle: const TextStyle(color: Colors.white70, fontSize: 12),
+      labelStyle: TextStyle(
+        color: AppTheme.textDark.withValues(alpha: 0.7),
+        fontSize: 12,
+      ),
     );
   }
 
@@ -261,7 +264,7 @@ class _ChatScreenState extends State<ChatScreen> {
             Text(
               message.content,
               style: TextStyle(
-                color: isUser ? AppTheme.darkBackground : Colors.white,
+                color: isUser ? AppTheme.darkBackground : AppTheme.textDark,
                 fontSize: 14,
                 height: 1.5,
               ),
