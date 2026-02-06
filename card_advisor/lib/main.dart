@@ -15,6 +15,7 @@ import 'screens/wallet_screen.dart';
 import 'screens/history_screen.dart';
 import 'screens/planner_screen.dart';
 import 'screens/redeem_screen.dart';
+import 'screens/chatbot_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -92,6 +93,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   final List<Widget> _screens = const [
     HomeScreen(),
     WalletScreen(),
+    ChatbotScreen(), // Center tab
     HistoryScreen(),
     PlannerScreen(),
     RedeemScreen(),
@@ -121,7 +123,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -137,20 +139,22 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   activeIcon: Icons.account_balance_wallet,
                   label: 'Wallet',
                 ),
+                // Center AI button
+                _buildCenterAIButton(),
                 _buildNavItem(
-                  index: 2,
+                  index: 3,
                   icon: Icons.history,
                   activeIcon: Icons.history,
                   label: 'History',
                 ),
                 _buildNavItem(
-                  index: 3,
+                  index: 4,
                   icon: Icons.flag_outlined,
                   activeIcon: Icons.flag,
                   label: 'Planner',
                 ),
                 _buildNavItem(
-                  index: 4,
+                  index: 5,
                   icon: Icons.card_giftcard_outlined,
                   activeIcon: Icons.card_giftcard,
                   label: 'Redeem',
@@ -203,6 +207,35 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               ),
             ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCenterAIButton() {
+    final isActive = _currentIndex == 2;
+    return GestureDetector(
+      onTap: () => setState(() => _currentIndex = 2),
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          color: isActive ? AppTheme.primaryGreen : AppTheme.accentGold,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: (isActive ? AppTheme.primaryGreen : AppTheme.accentGold)
+                  .withValues(alpha: 0.4),
+              blurRadius: 16,
+              offset: const Offset(0, 4),
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: Icon(
+          Icons.auto_awesome,
+          color: isActive ? Colors.white : AppTheme.primaryGreen,
+          size: 24,
+        ),
       ),
     );
   }
