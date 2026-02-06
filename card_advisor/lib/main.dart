@@ -13,6 +13,8 @@ import 'screens/chat_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/wallet_screen.dart';
 import 'screens/history_screen.dart';
+import 'screens/planner_screen.dart';
+import 'screens/redeem_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -91,8 +93,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     HomeScreen(),
     WalletScreen(),
     HistoryScreen(),
-    RecommendScreen(),
-    ChatScreen(),
+    PlannerScreen(),
+    RedeemScreen(),
   ];
 
   @override
