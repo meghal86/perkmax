@@ -36,6 +36,33 @@ export const Dashboard: React.FC<DashboardProps> = ({ onShowDetail }) => {
     }
   };
 
+  const handleAutoDetect = () => {
+    if (!navigator.geolocation) {
+      toast.error("Geolocation is not supported by your browser");
+      return;
+    }
+
+    toast.info("Locating...", { description: "Requesting browser location access." });
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const { latitude, longitude } = position.coords;
+      try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        const data = await response.json();
+        const address = data.address;
+        const locationName = address.city || address.town || address.village || address.county || "Unknown Location";
+
+        setSearch(locationName);
+        toast.success("Location Detect", { description: `Found you in ${locationName}` });
+      } catch (error) {
+        setSearch(`${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
+        toast.success("Location Services Enabled", { description: "Could not fetch address name, showing coordinates." });
+      }
+    }, (error) => {
+      toast.error("Location Error", { description: error.message });
+    });
+  };
+
   return (
     <div className="pb-32 pt-6 px-6 max-w-md mx-auto">
       {/* Header */}
@@ -62,9 +89,34 @@ export const Dashboard: React.FC<DashboardProps> = ({ onShowDetail }) => {
           className="w-full bg-white border-none py-4 pl-12 pr-4 rounded-2xl shadow-sm font-sans focus:ring-2 focus:ring-primary/20 transition-all outline-none"
         />
         <div className="absolute right-3 inset-y-0 flex items-center">
-          <button 
+          <button
             type="button"
-            onClick={() => toast.success("Location Services Enabled", { description: "Merchant detection is now in real-time." })}
+            onClick={() => {
+              if (!navigator.geolocation) {
+                toast.error("Geolocation is not supported by your browser");
+                return;
+              }
+
+              toast.info("Locating...", { description: "Requesting browser location access." });
+
+              navigator.geolocation.getCurrentPosition(async (position) => {
+                const { latitude, longitude } = position.coords;
+                try {
+                  const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+                  const data = await response.json();
+                  const address = data.address;
+                  const locationName = address.city || address.town || address.village || address.county || "Unknown Location";
+
+                  setSearch(locationName);
+                  toast.success("Location Detect", { description: `Found you in ${locationName}` });
+                } catch (error) {
+                  setSearch(`${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
+                  toast.success("Location Services Enabled", { description: "Could not fetch address name, showing coordinates." });
+                }
+              }, (error) => {
+                toast.error("Location Error", { description: error.message });
+              });
+            }}
             className="px-2 py-1 bg-gray-50 rounded-lg text-[10px] font-bold text-gray-400 border border-gray-100 hover:bg-gray-100 transition-colors"
           >
             AUTO-DETECT
@@ -91,10 +143,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onShowDetail }) => {
           className="relative overflow-hidden cursor-pointer"
         >
           {/* Asymmetric Design Container */}
-          <div 
+          <div
             className="bg-[#2C3E50] text-white p-8 pb-10 rounded-[40px] rounded-br-[120px] shadow-2xl relative z-10"
-            style={{ 
-              backgroundImage: 'radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 50%)' 
+            style={{
+              backgroundImage: 'radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 50%)'
             }}
           >
             <div className="flex justify-between items-start mb-12">
@@ -112,10 +164,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onShowDetail }) => {
               <div>
                 <p className="text-white/40 text-[10px] font-sans tracking-[0.2em] mb-1 uppercase">Card Ending In</p>
                 <div className="flex items-center gap-2">
-                   <div className="w-8 h-5 bg-white/10 rounded flex items-center justify-center">
+                  <div className="w-8 h-5 bg-white/10 rounded flex items-center justify-center">
                     <span className="text-[8px] font-bold italic">VISA</span>
-                   </div>
-                   <span className="text-lg font-sans tracking-widest font-medium">•••• {mockRecommendation.card.last4}</span>
+                  </div>
+                  <span className="text-lg font-sans tracking-widest font-medium">•••• {mockRecommendation.card.last4}</span>
                 </div>
               </div>
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-2 px-3 flex items-center gap-2 border border-white/10">
@@ -126,7 +178,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onShowDetail }) => {
               </div>
             </div>
           </div>
-          
+
           {/* Shadow/Reflection Layer for Organic Feel */}
           <div className="absolute inset-0 bg-primary/20 blur-2xl -z-10 translate-y-4 rounded-full opacity-50" />
         </motion.div>
