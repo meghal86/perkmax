@@ -14,6 +14,15 @@ import {
 import { Card } from '../types';
 import { CreditCard } from './CreditCard';
 import { CardEditDrawer } from './CardEditDrawer';
+import { POPULAR_CARDS } from '../../data/cards';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "../components/ui/dialog";
+import { ScrollArea } from "../components/ui/scroll-area";
 
 const initialCards: Card[] = [
   {
@@ -74,6 +83,7 @@ export const Wallet: React.FC = () => {
   const [viewMode, setViewMode] = useState<'list' | 'carousel'>('list');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+  const [isAddCardOpen, setIsAddCardOpen] = useState(false);
 
   const filteredCards = cards.filter(c =>
     c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -195,25 +205,11 @@ export const Wallet: React.FC = () => {
       </div>
 
       {/* Add Card FAB */}
-      {/* Add Card FAB - Now functional */}
+      {/* Add Card FAB */}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => {
-          // Creating a new empty card template
-          const newCard: Card = {
-            id: Math.random().toString(36).substr(2, 9),
-            name: 'New Card',
-            last4: '0000',
-            bank: 'New Bank',
-            color: '#000000',
-            type: 'visa',
-            annualFee: 0,
-            activationDate: new Date().getFullYear().toString()
-          };
-          setCards([newCard, ...cards]);
-          setSelectedCard(newCard);
-        }}
+        onClick={() => setIsAddCardOpen(true)}
         className="fixed bottom-24 right-6 w-16 h-16 rounded-[24px] rounded-tr-lg bg-primary text-white flex items-center justify-center shadow-2xl shadow-primary/30 z-50 border border-white/10"
       >
         <Plus size={32} />
@@ -240,6 +236,48 @@ export const Wallet: React.FC = () => {
           />
         )}
       </AnimatePresence>
+
+      {/* Add Card Dialog */}
+      <Dialog open={isAddCardOpen} onOpenChange={setIsAddCardOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Add New Card</DialogTitle>
+            <DialogDescription>
+              Select a card to add to your wallet.
+            </DialogDescription>
+          </DialogHeader>
+          <ScrollArea className="h-[300px] w-full rounded-md border p-4">
+            <div className="grid grid-cols-1 gap-2">
+              {POPULAR_CARDS.map((card, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    const newCard: Card = {
+                      ...card,
+                      id: Math.random().toString(36).substr(2, 9),
+                      last4: '0000',
+                      activationDate: new Date().getFullYear().toString(),
+                    } as Card;
+                    setCards([newCard, ...cards]);
+                    setIsAddCardOpen(false);
+                    setSelectedCard(newCard); // Optionally open edit drawer immediately
+                  }}
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100 transition-colors text-left"
+                >
+                  <div
+                    className="w-10 h-6 rounded bg-gradient-to-br from-gray-700 to-gray-900 shadow-sm"
+                    style={{ backgroundColor: card.color }}
+                  />
+                  <div>
+                    <div className="font-medium text-sm">{card.name}</div>
+                    <div className="text-xs text-gray-500">{card.bank} • {card.type}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
