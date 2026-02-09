@@ -203,14 +203,15 @@ export const Wallet: React.FC = () => {
           // Creating a new empty card template
           const newCard: Card = {
             id: Math.random().toString(36).substr(2, 9),
-            name: '',
-            last4: '',
-            bank: '',
+            name: 'New Card',
+            last4: '0000',
+            bank: 'New Bank',
             color: '#000000',
             type: 'visa',
             annualFee: 0,
             activationDate: new Date().getFullYear().toString()
           };
+          setCards([newCard, ...cards]);
           setSelectedCard(newCard);
         }}
         className="fixed bottom-24 right-6 w-16 h-16 rounded-[24px] rounded-tr-lg bg-primary text-white flex items-center justify-center shadow-2xl shadow-primary/30 z-50 border border-white/10"
