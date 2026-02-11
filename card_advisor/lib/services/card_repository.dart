@@ -74,6 +74,7 @@ class CardRepository {
           ),
           expiryDate: cardMap['expiry_date'] as String,
           cardColor: cardMap['card_color'] as String? ?? '0',
+          issuer: 'Unknown',
           rewardRates: rewardRates,
         ),
       );

@@ -1,42 +1,66 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'app/theme.dart';
 import 'providers/card_provider.dart';
 import 'screens/home_screen.dart';
-import 'screens/cards_screen.dart';
-import 'screens/recommend_screen.dart';
-import 'screens/chat_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/wallet_screen.dart';
 import 'screens/history_screen.dart';
-import 'screens/planner_screen.dart';
 import 'screens/redeem_screen.dart';
 import 'screens/chatbot_screen.dart';
+import 'screens/debug_service_screen.dart';
+
+import 'services/background_sync_manager.dart';
+import 'database/app_database.dart';
+import 'database/daos/cards_dao.dart';
+import 'database/daos/user_wallet_dao.dart';
+import 'database/daos/merchants_dao.dart';
+import 'database/daos/spend_dao.dart';
+import 'services/card_seed_loader.dart';
+import 'services/recommendation_engine.dart';
+import 'services/merchant_service.dart';
 
 void main() async {
+  print('DEBUG: Starting main()');
   WidgetsFlutterBinding.ensureInitialized();
+  print('DEBUG: EnsureInitialized done');
+
+  // Initialize Background Sync
+  try {
+    print('DEBUG: Initializing BackgroundSyncManager');
+    await BackgroundSyncManager.initialize();
+    print('DEBUG: BackgroundSyncManager initialized');
+    await BackgroundSyncManager.registerPeriodicTask();
+    print('DEBUG: Periodic task registered');
+  } catch (e) {
+    print('DEBUG: BackgroundSyncManager error: $e');
+  }
 
   if (!kIsWeb &&
       (defaultTargetPlatform == TargetPlatform.macOS ||
           defaultTargetPlatform == TargetPlatform.linux ||
           defaultTargetPlatform == TargetPlatform.windows)) {
+    print('DEBUG: Configuring WindowManager');
     await windowManager.ensureInitialized();
+    // ...
     WindowOptions windowOptions = const WindowOptions(
       size: Size(393, 852), // iPhone 16 Pro dimensions
       minimumSize: Size(393, 852),
       center: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor:
+          Colors.black, // Changed from transparent to visible color
       skipTaskbar: false,
       title: 'PerkMax',
     );
+    // ...
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.show();
       await windowManager.focus();
     });
+    print('DEBUG: WindowManager configured');
   }
 
   SystemChrome.setSystemUIOverlayStyle(
@@ -45,7 +69,64 @@ void main() async {
       statusBarIconBrightness: Brightness.light,
     ),
   );
-  runApp(const CardAdvisorApp());
+
+  try {
+    print('DEBUG: Initializing Database');
+    // Initialize Database & Seed
+    final dbHelper = DatabaseHelper.instance;
+    final cardsDao = CardsDao(dbHelper: dbHelper);
+    final seedLoader = CardSeedLoader(cardsDao: cardsDao);
+
+    print('DEBUG: Loading Seed Data');
+    // Load initial seed data (fast check)
+    await seedLoader.loadSeedData();
+    print('DEBUG: Seed Data Loaded');
+
+    // Initialize other DAOs
+    final userWalletDao = UserWalletDao(dbHelper: dbHelper);
+    final merchantsDao = MerchantsDao(dbHelper: dbHelper);
+    final spendDao = SpendDao(dbHelper: dbHelper);
+
+    // Initialize Engine
+    final recommendationEngine = RecommendationEngine(
+      cardsDao: cardsDao,
+      userWalletDao: userWalletDao,
+      merchantsDao: merchantsDao,
+      spendDao: spendDao,
+    );
+
+    // Initialize MerchantService
+    final merchantService = MerchantService(merchantsDao: merchantsDao);
+
+    // Seed test merchants for debugging
+    print('DEBUG: Seeding Test Merchants');
+    await merchantService.seedTestMerchants();
+
+    print('DEBUG: Running App');
+    runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => CardProvider()),
+          Provider<RecommendationEngine>.value(value: recommendationEngine),
+          Provider<MerchantService>.value(value: merchantService),
+          Provider<CardsDao>.value(value: cardsDao),
+          Provider<UserWalletDao>.value(value: userWalletDao),
+          Provider<MerchantsDao>.value(value: merchantsDao),
+          Provider<SpendDao>.value(value: spendDao),
+        ],
+        child: const CardAdvisorApp(),
+      ),
+    );
+  } catch (e, stack) {
+    print('DEBUG: Error in main: $e');
+    print(stack);
+    // Attempt to run app anyway so error can be seen if possible, or at least it doesn't stay blank black
+    runApp(
+      MaterialApp(
+        home: Scaffold(body: Center(child: Text('Error: $e'))),
+      ),
+    );
+  }
 }
 
 class CardAdvisorApp extends StatefulWidget {
@@ -66,16 +147,13 @@ class _CardAdvisorAppState extends State<CardAdvisorApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => CardProvider())],
-      child: MaterialApp(
-        title: 'PerkMax',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        home: _showSplash
-            ? SplashScreen(onComplete: _completeSplash)
-            : const MainNavigationScreen(),
-      ),
+    return MaterialApp(
+      title: 'PerkMax',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      home: _showSplash
+          ? SplashScreen(onComplete: _completeSplash)
+          : const MainNavigationScreen(),
     );
   }
 }
@@ -95,7 +173,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     WalletScreen(),
     ChatbotScreen(), // Center AI tab
     HistoryScreen(),
-    PlannerScreen(),
+    DebugServiceScreen(), // Replaces PlannerScreen for testing
     RedeemScreen(),
   ];
 

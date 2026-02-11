@@ -4,6 +4,7 @@ import '../app/theme.dart';
 import '../providers/card_provider.dart';
 import '../models/credit_card.dart';
 import '../services/recommendation_service.dart';
+import 'merchant_test_screen.dart';
 
 class RecommendScreen extends StatefulWidget {
   const RecommendScreen({super.key});
@@ -57,7 +58,15 @@ class _RecommendScreenState extends State<RecommendScreen> {
               context,
             ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 4),
+          IconButton(
+            icon: const Icon(Icons.location_searching),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MerchantTestScreen()),
+              );
+            },
+          ),
           Text(
             'Select a category to find the best card',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -101,12 +110,12 @@ class _RecommendScreenState extends State<RecommendScreen> {
 
     IconData icon;
     List<Color> gradient;
-    switch (category) {
       case RewardCategory.dining:
         icon = Icons.restaurant;
         gradient = [const Color(0xFFFF6B6B), const Color(0xFFFF8E8E)];
         break;
       case RewardCategory.travel:
+      case RewardCategory.travelPortal:
         icon = Icons.flight;
         gradient = [const Color(0xFF4FACFE), const Color(0xFF00F2FE)];
         break;
@@ -115,6 +124,7 @@ class _RecommendScreenState extends State<RecommendScreen> {
         gradient = [const Color(0xFFFFA726), const Color(0xFFFFCC02)];
         break;
       case RewardCategory.groceries:
+      case RewardCategory.wholesaleClub:
         icon = Icons.shopping_cart;
         gradient = [const Color(0xFF43E97B), const Color(0xFF38F9D7)];
         break;
@@ -123,18 +133,75 @@ class _RecommendScreenState extends State<RecommendScreen> {
         gradient = [const Color(0xFF667EEA), const Color(0xFF764BA2)];
         break;
       case RewardCategory.online:
+      case RewardCategory.amazon:
         icon = Icons.shopping_bag;
         gradient = [const Color(0xFFF093FB), const Color(0xFFF5576C)];
         break;
       case RewardCategory.utilities:
+      case RewardCategory.telecom:
         icon = Icons.bolt;
         gradient = [const Color(0xFF00D9FF), const Color(0xFF00A3CC)];
         break;
-      case RewardCategory.general:
+      case RewardCategory.drugstore:
+        icon = Icons.local_pharmacy;
+        gradient = [const Color(0xFFFF9A9E), const Color(0xFFFECFEF)];
+        break;
+      case RewardCategory.rent:
+        icon = Icons.home;
+        gradient = [const Color(0xFF6A11CB), const Color(0xFF2575FC)];
+        break;
+      case RewardCategory.transit:
+      case RewardCategory.carRental:
+        icon = Icons.directions_bus;
+        gradient = [const Color(0xFF30CFD0), const Color(0xFF330867)];
+        break;
+      case RewardCategory.airline:
+        icon = Icons.airplanemode_active;
+        gradient = [const Color(0xFF4FACFE), const Color(0xFF00F2FE)];
+        break;
+      case RewardCategory.hotel:
+        icon = Icons.hotel;
+        gradient = [const Color(0xFFFA709A), const Color(0xFFFEE140)];
+        break;
+      case RewardCategory.officeSupply:
+      case RewardCategory.advertising:
+      case RewardCategory.shipping:
+        icon = Icons.business_center;
+        gradient = [const Color(0xFF37ECBA), const Color(0xFF72AFD3)];
+        break;
+      case RewardCategory.costco:
+        icon = Icons.store;
+        gradient = [const Color(0xFFF83600), const Color(0xFFF9D423)];
+        break;
+      case RewardCategory.entertainment:
+        icon = Icons.movie;
+        gradient = [const Color(0xFFFF512F), const Color(0xFFDD2476)];
+        break;
+      case RewardCategory.military:
+        icon = Icons.shield;
+        gradient = [const Color(0xFF134E5E), const Color(0xFF71B280)];
+        break;
+      case RewardCategory.flexible:
+      case RewardCategory.test: 
+        icon = Icons.auto_awesome;
+        gradient = [const Color(0xFF8E2DE2), const Color(0xFF4A00E0)];
+        break;
+      case RewardCategory.medical:
+        icon = Icons.medical_services;
+        gradient = [const Color(0xFFEB3349), const Color(0xFFF45C43)];
+        break;
+      case RewardCategory.education:
+        icon = Icons.school;
+        gradient = [const Color(0xFF3CA55C), const Color(0xFFB5AC49)];
+        break;
+      case RewardCategory.fitness:
+        icon = Icons.fitness_center;
+        gradient = [const Color(0xFF11998e), const Color(0xFF38ef7d)];
+        break;
+      default:
         icon = Icons.credit_card;
         gradient = [const Color(0xFFD4AF37), const Color(0xFFFFD700)];
         break;
-    }
 
     return GestureDetector(
       onTap: () => setState(() => _selectedCategory = category),

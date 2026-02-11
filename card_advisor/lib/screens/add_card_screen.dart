@@ -337,6 +337,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
             ? cardNickname
             : '${cardType.name} Card',
         cardColor: selectedColorIndex.toString(),
+        issuer: 'Custom',
         rewardRates: rewards,
       );
 

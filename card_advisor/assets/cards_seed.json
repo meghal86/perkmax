@@ -1,0 +1,1086 @@
+{
+    "cards": [
+        {
+            "id": "chase_sapphire_preferred",
+            "issuer": "Chase",
+            "product_name": "Sapphire Preferred",
+            "network": "Visa",
+            "annual_fee_cents": 9500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "travel",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "groceries",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "chase_sapphire_reserve",
+            "issuer": "Chase",
+            "product_name": "Sapphire Reserve",
+            "network": "Visa",
+            "annual_fee_cents": 55000,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "travel",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "chase_freedom_unlimited",
+            "issuer": "Chase",
+            "product_name": "Freedom Unlimited",
+            "network": "Visa",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "dining",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "drugstore",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.5
+                }
+            ]
+        },
+        {
+            "id": "chase_freedom_flex",
+            "issuer": "Chase",
+            "product_name": "Freedom Flex",
+            "network": "Mastercard",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "dining",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "drugstore",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "amex_gold",
+            "issuer": "American Express",
+            "product_name": "Gold Card",
+            "network": "Amex",
+            "annual_fee_cents": 25000,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "dining",
+                    "earn_rate": 4.0
+                },
+                {
+                    "category": "groceries",
+                    "earn_rate": 4.0
+                },
+                {
+                    "category": "travel",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "amex_platinum",
+            "issuer": "American Express",
+            "product_name": "Platinum Card",
+            "network": "Amex",
+            "annual_fee_cents": 69500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "travel",
+                    "earn_rate": 5.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "amex_blue_cash_preferred",
+            "issuer": "American Express",
+            "product_name": "Blue Cash Preferred",
+            "network": "Amex",
+            "annual_fee_cents": 9500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "groceries",
+                    "earn_rate": 6.0
+                },
+                {
+                    "category": "streaming",
+                    "earn_rate": 6.0
+                },
+                {
+                    "category": "gas",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "transit",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "capitalone_venture_x",
+            "issuer": "Capital One",
+            "product_name": "Venture X",
+            "network": "Visa",
+            "annual_fee_cents": 39500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "travel",
+                    "earn_rate": 10.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 2.0
+                }
+            ]
+        },
+        {
+            "id": "capitalone_venture",
+            "issuer": "Capital One",
+            "product_name": "Venture Rewards",
+            "network": "Visa",
+            "annual_fee_cents": 9500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "general",
+                    "earn_rate": 2.0
+                }
+            ]
+        },
+        {
+            "id": "citi_premier",
+            "issuer": "Citi",
+            "product_name": "Premier",
+            "network": "Mastercard",
+            "annual_fee_cents": 9500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "dining",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "groceries",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "gas",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "travel",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "citi_double_cash",
+            "issuer": "Citi",
+            "product_name": "Double Cash",
+            "network": "Mastercard",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "general",
+                    "earn_rate": 2.0
+                }
+            ]
+        },
+        {
+            "id": "bilt_rewards",
+            "issuer": "Wells Fargo",
+            "product_name": "Bilt Rewards",
+            "network": "Mastercard",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "rent",
+                    "earn_rate": 1.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "travel",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "chase_ink_business_preferred",
+            "issuer": "Chase",
+            "product_name": "Ink Business Preferred",
+            "network": "Visa",
+            "annual_fee_cents": 9500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "travel",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "advertising",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "shipping",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "telecom",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "chase_ink_business_unlimited",
+            "issuer": "Chase",
+            "product_name": "Ink Business Unlimited",
+            "network": "Visa",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "general",
+                    "earn_rate": 1.5
+                }
+            ]
+        },
+        {
+            "id": "chase_ink_business_cash",
+            "issuer": "Chase",
+            "product_name": "Ink Business Cash",
+            "network": "Visa",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "officeSupply",
+                    "earn_rate": 5.0
+                },
+                {
+                    "category": "telecom",
+                    "earn_rate": 5.0
+                },
+                {
+                    "category": "gas",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "amex_business_gold",
+            "issuer": "American Express",
+            "product_name": "Business Gold Card",
+            "network": "Amex",
+            "annual_fee_cents": 37500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                },
+                {
+                    "category": "airline",
+                    "earn_rate": 3.0
+                }
+            ]
+        },
+        {
+            "id": "amex_business_platinum",
+            "issuer": "American Express",
+            "product_name": "Business Platinum",
+            "network": "Amex",
+            "annual_fee_cents": 69500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "airline",
+                    "earn_rate": 5.0
+                },
+                {
+                    "category": "hotel",
+                    "earn_rate": 5.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "capitalone_spark_cash_plus",
+            "issuer": "Capital One",
+            "product_name": "Spark Cash Plus",
+            "network": "Visa",
+            "annual_fee_cents": 15000,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "general",
+                    "earn_rate": 2.0
+                }
+            ]
+        },
+        {
+            "id": "delta_amex_gold",
+            "issuer": "American Express",
+            "product_name": "Delta SkyMiles Gold",
+            "network": "Amex",
+            "annual_fee_cents": 15000,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "airline",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "groceries",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "delta_amex_platinum",
+            "issuer": "American Express",
+            "product_name": "Delta SkyMiles Platinum",
+            "network": "Amex",
+            "annual_fee_cents": 25000,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "airline",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "hotel",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "united_chase_explorer",
+            "issuer": "Chase",
+            "product_name": "United Explorer",
+            "network": "Visa",
+            "annual_fee_cents": 9500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "airline",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "hotel",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "southwest_priority",
+            "issuer": "Chase",
+            "product_name": "Southwest Priority",
+            "network": "Visa",
+            "annual_fee_cents": 14900,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "airline",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "hotel",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "marriott_bonvoy_boundless",
+            "issuer": "Chase",
+            "product_name": "Marriott Bonvoy Boundless",
+            "network": "Visa",
+            "annual_fee_cents": 9500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "hotel",
+                    "earn_rate": 6.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "travel",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "hilton_amex_surpass",
+            "issuer": "American Express",
+            "product_name": "Hilton Surpass",
+            "network": "Amex",
+            "annual_fee_cents": 15000,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "hotel",
+                    "earn_rate": 12.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 6.0
+                },
+                {
+                    "category": "groceries",
+                    "earn_rate": 6.0
+                },
+                {
+                    "category": "gas",
+                    "earn_rate": 6.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 3.0
+                }
+            ]
+        },
+        {
+            "id": "world_of_hyatt",
+            "issuer": "Chase",
+            "product_name": "World of Hyatt",
+            "network": "Visa",
+            "annual_fee_cents": 9500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "hotel",
+                    "earn_rate": 4.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "travel",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "amazon_prime_visa",
+            "issuer": "Chase",
+            "product_name": "Amazon Prime Visa",
+            "network": "Visa",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "amazon",
+                    "earn_rate": 5.0
+                },
+                {
+                    "category": "groceries",
+                    "earn_rate": 5.0
+                },
+                {
+                    "category": "gas",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "costco_citi_visa",
+            "issuer": "Citi",
+            "product_name": "Costco Anywhere Visa",
+            "network": "Visa",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "gas",
+                    "earn_rate": 4.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "travel",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "costco",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "discover_it_cash_back",
+            "issuer": "Discover",
+            "product_name": "Discover it Cash Back",
+            "network": "Discover",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "rotating",
+                    "earn_rate": 5.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "usbank_altitude_reserve",
+            "issuer": "US Bank",
+            "product_name": "Altitude Reserve",
+            "network": "Visa",
+            "annual_fee_cents": 40000,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "mobileWallet",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "travel",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "usbank_cash_plus",
+            "issuer": "US Bank",
+            "product_name": "Cash+",
+            "network": "Visa",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                },
+                {
+                    "category": "gas",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "groceries",
+                    "earn_rate": 2.0
+                }
+            ]
+        },
+        {
+            "id": "wells_fargo_autograph",
+            "issuer": "Wells Fargo",
+            "product_name": "Autograph",
+            "network": "Visa",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "dining",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "travel",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "gas",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "transit",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "streaming",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "bank_of_america_premium_rewards",
+            "issuer": "Bank of America",
+            "product_name": "Premium Rewards",
+            "network": "Visa",
+            "annual_fee_cents": 9500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "travel",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.5
+                }
+            ]
+        },
+        {
+            "id": "bank_of_america_customized_cash",
+            "issuer": "Bank of America",
+            "product_name": "Customized Cash Rewards",
+            "network": "Visa",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "groceries",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "wholesaleClub",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "paypal_cashback_mastercard",
+            "issuer": "Synchrony",
+            "product_name": "PayPal Cashback Mastercard",
+            "network": "Mastercard",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "online",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 2.0
+                }
+            ]
+        },
+        {
+            "id": "amex_green",
+            "issuer": "American Express",
+            "product_name": "Green Card",
+            "network": "Amex",
+            "annual_fee_cents": 15000,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "travel",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "transit",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "dining",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "amex_everyday_preferred",
+            "issuer": "American Express",
+            "product_name": "EveryDay Preferred",
+            "network": "Amex",
+            "annual_fee_cents": 9500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "groceries",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "gas",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "capitalone_savor",
+            "issuer": "Capital One",
+            "product_name": "Savor",
+            "network": "Mastercard",
+            "annual_fee_cents": 9500,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "dining",
+                    "earn_rate": 4.0
+                },
+                {
+                    "category": "entertainment",
+                    "earn_rate": 4.0
+                },
+                {
+                    "category": "streaming",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "groceries",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "capitalone_savorone",
+            "issuer": "Capital One",
+            "product_name": "SavorOne",
+            "network": "Mastercard",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "dining",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "entertainment",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "streaming",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "groceries",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "citi_custom_cash",
+            "issuer": "Citi",
+            "product_name": "Custom Cash",
+            "network": "Mastercard",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "flexible",
+                    "earn_rate": 5.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "citi_rewards_plus",
+            "issuer": "Citi",
+            "product_name": "Rewards+",
+            "network": "Mastercard",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "groceries",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "gas",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "usaa_cashback_rewards_plus",
+            "issuer": "USAA",
+            "product_name": "Cashback Rewards Plus",
+            "network": "Visa",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "gas",
+                    "earn_rate": 5.0
+                },
+                {
+                    "category": "military",
+                    "earn_rate": 5.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "navy_federal_more_rewards",
+            "issuer": "Navy Federal",
+            "product_name": "More Rewards",
+            "network": "Amex",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "dining",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "gas",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "groceries",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "transit",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "apple_card",
+            "issuer": "Apple",
+            "product_name": "Apple Card",
+            "network": "Mastercard",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "mobileWallet",
+                    "earn_rate": 2.0
+                },
+                {
+                    "category": "flexible",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "venmo_visa",
+            "issuer": "Synchrony",
+            "product_name": "Venmo Visa",
+            "network": "Visa",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "flexible",
+                    "earn_rate": 3.0
+                },
+                {
+                    "category": "general",
+                    "earn_rate": 1.0
+                }
+            ]
+        },
+        {
+            "id": "sofi_credit_card",
+            "issuer": "SoFi",
+            "product_name": "SoFi Credit Card",
+            "network": "Mastercard",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "general",
+                    "earn_rate": 2.0
+                }
+            ]
+        },
+        {
+            "id": "fidelity_rewards",
+            "issuer": "Fidelity",
+            "product_name": "Rewards Visa",
+            "network": "Visa",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "general",
+                    "earn_rate": 2.0
+                }
+            ]
+        },
+        {
+            "id": "bread_cashback",
+            "issuer": "Bread Financial",
+            "product_name": "Bread Cashback",
+            "network": "Amex",
+            "annual_fee_cents": 0,
+            "is_active": 1,
+            "rewards": [
+                {
+                    "category": "general",
+                    "earn_rate": 2.0
+                }
+            ]
+        }
+    ]
+}

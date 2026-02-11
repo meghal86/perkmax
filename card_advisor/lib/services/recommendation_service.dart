@@ -79,4 +79,71 @@ class RecommendationService {
   List<String> getVendorTypes() {
     return vendorCategoryMapping.keys.toList();
   }
+
+  /// Fuzzy match a category string to a RewardCategory
+  RewardCategory matchCategory(String input) {
+    // 1. Direct match check
+    if (vendorCategoryMapping.containsKey(input)) {
+      return vendorCategoryMapping[input]!;
+    }
+
+    final lower = input.toLowerCase();
+
+    // 2. Keyword matching
+    if (lower.contains('restaurant') ||
+        lower.contains('food') ||
+        lower.contains('cafe') ||
+        lower.contains('coffee') ||
+        lower.contains('bar')) {
+      return RewardCategory.dining;
+    }
+    if (lower.contains('grocery') ||
+        lower.contains('supermarket') ||
+        lower.contains('market') ||
+        lower.contains('whole foods') ||
+        lower.contains('trader joe')) {
+      return RewardCategory.groceries;
+    }
+    if (lower.contains('gas') ||
+        lower.contains('fuel') ||
+        lower.contains('station')) {
+      return RewardCategory.gas;
+    }
+    if (lower.contains('travel') ||
+        lower.contains('hotel') ||
+        lower.contains('airline') ||
+        lower.contains('flight') ||
+        lower.contains('airport')) {
+      return RewardCategory.travel;
+    }
+    if (lower.contains('drug') ||
+        lower.contains('pharmacy') ||
+        lower.contains('cvs') ||
+        lower.contains('walgreens')) {
+      return RewardCategory.drugstore;
+    }
+    if (lower.contains('online') || lower.contains('amazon')) {
+      return RewardCategory.online;
+    }
+    if (lower.contains('department') ||
+        lower.contains('clothing') ||
+        lower.contains('shoe') ||
+        lower.contains('wear') ||
+        lower.contains('macy') ||
+        lower.contains('nordstrom')) {
+      // Could be general or online, let's say general for now unless we have a specific 'shopping' category
+      // We don't have a specific 'fashion' category in the seed, so map to general or perhaps online if unclear.
+      // Actually, checking RewardCategory enum context, 'general' is safer (1x/1.5x)
+      return RewardCategory.general;
+    }
+    if (lower.contains('electronic') ||
+        lower.contains('tech') ||
+        lower.contains('best buy') ||
+        lower.contains('apple')) {
+      return RewardCategory.general; // Or specific if we add it
+    }
+
+    // Default
+    return RewardCategory.general;
+  }
 }

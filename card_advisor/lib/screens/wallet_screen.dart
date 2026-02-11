@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../app/theme.dart';
 import '../models/credit_card.dart';
 import '../widgets/card_edit_drawer.dart';
+import '../providers/card_provider.dart';
+import 'card_catalog_screen.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});
@@ -14,71 +17,14 @@ class WalletScreen extends StatefulWidget {
 class _WalletScreenState extends State<WalletScreen> {
   final TextEditingController _searchController = TextEditingController();
   bool _isListView = true;
-  late List<CreditCard> _cards;
 
   @override
   void initState() {
     super.initState();
-    _cards = [
-      CreditCard(
-        id: '1',
-        cardholderName: 'John Doe',
-        lastFourDigits: '4242',
-        expiryDate: '12/26',
-        cardType: CardType.visa,
-        cardNickname: 'Chase Freedom Unlimited',
-        cardColor: '#114499',
-        rewardRates: {RewardCategory.general: 1.5, RewardCategory.dining: 3.0},
-      ),
-      CreditCard(
-        id: '2',
-        cardholderName: 'John Doe',
-        lastFourDigits: '1004',
-        expiryDate: '09/27',
-        cardType: CardType.amex,
-        cardNickname: 'Amex Platinum',
-        cardColor: '#717182',
-        rewardRates: {
-          RewardCategory.travel: 5.0,
-          RewardCategory.dining: 4.0,
-          RewardCategory.general: 1.0,
-        },
-      ),
-      CreditCard(
-        id: '3',
-        cardholderName: 'John Doe',
-        lastFourDigits: '8831',
-        expiryDate: '03/28',
-        cardType: CardType.mastercard,
-        cardNickname: 'Apple Card',
-        cardColor: '#FFFFFF',
-        rewardRates: {RewardCategory.general: 1.0, RewardCategory.online: 2.0},
-      ),
-      CreditCard(
-        id: '4',
-        cardholderName: 'John Doe',
-        lastFourDigits: '5521',
-        expiryDate: '06/25',
-        cardType: CardType.visa,
-        cardNickname: 'Capital One Venture',
-        cardColor: '#004D40',
-        rewardRates: {RewardCategory.travel: 2.0, RewardCategory.general: 1.0},
-      ),
-      CreditCard(
-        id: '5',
-        cardholderName: 'John Doe',
-        lastFourDigits: '9902',
-        expiryDate: '11/26',
-        cardType: CardType.amex,
-        cardNickname: 'Amex Gold',
-        cardColor: '#D4AF37',
-        rewardRates: {
-          RewardCategory.dining: 4.0,
-          RewardCategory.groceries: 4.0,
-          RewardCategory.general: 1.0,
-        },
-      ),
-    ];
+    // Refresh cards when screen loads
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CardProvider>().loadCards();
+    });
   }
 
   @override
@@ -88,9 +34,7 @@ class _WalletScreenState extends State<WalletScreen> {
   }
 
   void _deleteCard(String id) {
-    setState(() {
-      _cards.removeWhere((card) => card.id == id);
-    });
+    context.read<CardProvider>().removeCard(id);
   }
 
   void _showCardDrawer(CreditCard card) {
@@ -175,12 +119,14 @@ class _WalletScreenState extends State<WalletScreen> {
                     color: AppTheme.primaryGreen.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Text(
-                    '${_cards.length} ACTIVE',
-                    style: GoogleFonts.inter(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.primaryGreen,
+                  child: Consumer<CardProvider>(
+                    builder: (context, provider, child) => Text(
+                      '${provider.cards.length} ACTIVE',
+                      style: GoogleFonts.inter(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.primaryGreen,
+                      ),
                     ),
                   ),
                 ),
@@ -294,35 +240,62 @@ class _WalletScreenState extends State<WalletScreen> {
   }
 
   Widget _buildCardsList() {
-    if (_isListView) {
-      return Column(
-        children: List.generate(
-          _cards.length,
-          (index) => _buildCardItem(_cards[index], index),
-        ),
-      );
-    } else {
-      return SizedBox(
-        height: 200,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: _cards.length,
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 24),
-              child: SizedBox(
-                width: 300,
-                child: _buildCardItem(_cards[index], index, isCarousel: true),
-              ),
-            );
-          },
-        ),
-      );
-    }
+    return Consumer<CardProvider>(
+      builder: (context, provider, child) {
+        final cards = provider.cards;
+
+        if (cards.isEmpty) {
+          return Center(
+            child: Text(
+              'No cards in wallet.\nTap + to add cards.',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(color: Colors.grey),
+            ),
+          );
+        }
+
+        if (_isListView) {
+          return Column(
+            children: List.generate(
+              cards.length,
+              (index) =>
+                  _buildCardItem(cards[index], index, totalCount: cards.length),
+            ),
+          );
+        } else {
+          return SizedBox(
+            height: 200,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: cards.length,
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 24),
+                  child: SizedBox(
+                    width: 300,
+                    child: _buildCardItem(
+                      cards[index],
+                      index,
+                      isCarousel: true,
+                      totalCount: cards.length,
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        }
+      },
+    );
   }
 
-  Widget _buildCardItem(CreditCard card, int index, {bool isCarousel = false}) {
+  Widget _buildCardItem(
+    CreditCard card,
+    int index, {
+    bool isCarousel = false,
+    required int totalCount,
+  }) {
     final cardColor = _parseColor(card.cardColor);
     final isDark = [
       const Color(0xFF000000),
@@ -337,7 +310,7 @@ class _WalletScreenState extends State<WalletScreen> {
 
     return Container(
       margin: EdgeInsets.only(
-        bottom: _isListView ? (index == _cards.length - 1 ? 0 : 0) : 0,
+        bottom: _isListView ? (index == totalCount - 1 ? 0 : 0) : 0,
         top: index * (_isListView && !isCarousel ? 0 : 0),
       ),
       child: Transform.translate(
@@ -625,7 +598,16 @@ class _WalletScreenState extends State<WalletScreen> {
       bottom: 100,
       right: 24,
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          // Navigate to Catalog screen to add cards
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const CardCatalogScreen()),
+          ).then((_) {
+            // Refresh on return
+            context.read<CardProvider>().loadCards();
+          });
+        },
         child: Container(
           width: 64,
           height: 64,
