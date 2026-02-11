@@ -17,10 +17,10 @@ interface CreditCardProps {
   isExpanded?: boolean;
 }
 
-export const CreditCard: React.FC<CreditCardProps> = ({ 
-  card, 
-  variant = 'list', 
-  index = 0, 
+export const CreditCard: React.FC<CreditCardProps> = ({
+  card,
+  variant = 'list',
+  index = 0,
   onClick,
   isExpanded = false
 }) => {
@@ -38,9 +38,9 @@ export const CreditCard: React.FC<CreditCardProps> = ({
       layout
       initial={{ opacity: 0, y: 20, rotateX: 5 }}
       animate={{ opacity: 1, y: 0, rotateX: 0 }}
-      whileHover={{ 
-        scale: 1.02, 
-        rotateY: 2, 
+      whileHover={{
+        scale: 1.02,
+        rotateY: 2,
         rotateX: -2,
         z: 10
       }}
@@ -53,21 +53,21 @@ export const CreditCard: React.FC<CreditCardProps> = ({
         isExpanded && "mb-4 hover:mb-4"
       )}
     >
-      <div 
+      <div
         className={cn(
-          "relative overflow-hidden shadow-2xl transition-all duration-500",
-          "rounded-[32px] rounded-tr-[12px] rounded-bl-[12px]", // Asymmetric corners
-          isDark ? "text-white" : "text-slate-900 border border-gray-100",
+          "relative overflow-hidden transition-all duration-500",
+          "rounded-xl border", // Standard Physical Card Radius
+          isDark ? "text-white border-white/10 shadow-2xl shadow-black/20" : "text-slate-900 border-gray-200 shadow-xl shadow-gray-200/50",
           variant === 'carousel' ? "w-[300px] h-[190px]" : "w-full h-[200px]"
         )}
-        style={{ 
+        style={{
           background: getBankGradient(card.color),
         }}
       >
         {/* Subtle Inner Glow & Texture */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
         <div className="absolute -top-20 -left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
-        
+
         {/* Card Content */}
         <div className="p-6 h-full flex flex-col justify-between relative z-10">
           <div className="flex justify-between items-start">
@@ -106,17 +106,17 @@ export const CreditCard: React.FC<CreditCardProps> = ({
                 <span className="text-[9px] font-sans uppercase tracking-widest">No PAN Stored</span>
               </div>
             </div>
-            
+
             <div className="flex flex-col items-end gap-2">
-               <div className={cn(
-                 "w-10 h-6 rounded-md flex items-center justify-center text-[8px] font-black italic tracking-tighter shadow-sm",
-                 isDark ? "bg-white/10 border border-white/20" : "bg-slate-900/5 border border-slate-900/10"
-               )}>
-                 {card.type.toUpperCase()}
-               </div>
-               {card.activationDate && (
-                 <span className="text-[8px] opacity-40 font-sans">SINCE {card.activationDate}</span>
-               )}
+              <div className={cn(
+                "w-10 h-6 rounded-md flex items-center justify-center text-[8px] font-black italic tracking-tighter shadow-sm",
+                isDark ? "bg-white/10 border border-white/20" : "bg-slate-900/5 border border-slate-900/10"
+              )}>
+                {card.type.toUpperCase()}
+              </div>
+              {card.activationDate && (
+                <span className="text-[8px] opacity-40 font-sans">SINCE {card.activationDate}</span>
+              )}
             </div>
           </div>
         </div>
